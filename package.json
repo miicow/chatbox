@@ -7,7 +7,8 @@
     "build-dev": "webpack --mode development --watch",
     "start-dev": "nodemon server.js",
     "build": "webpack --mode production",
-    "start": "node server.js"
+    "start": "node server.js",
+    "start-connection": "node src/server/index.js"
   },
   "repository": {
     "type": "git",
