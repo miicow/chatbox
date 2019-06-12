@@ -90,12 +90,12 @@ const ChatUI = () => {
           </div>
         </div>
         <div className={classes.flexbox}>
-          <TextField
+          {/* <TextField
             label="Username"
             className={classes.chatBox}
             value={usernameValue}
             onChange={event => setUsernameValue(event.target.value)}
-          />
+          /> */}
           <TextField
             label="Send a message"
             className={classes.chatBox}

@@ -12,6 +12,7 @@ io.on('connection', socket => {
   console.log('user connected');
   socket.on('chat message', function(msg) {
     console.log('message: ' + JSON.stringify(msg));
+    io.emit('chat message', msg);
   });
 });
 

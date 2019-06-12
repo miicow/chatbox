@@ -73,12 +73,15 @@ and you can capture variables in your function either way
 
 export default function Store(props) {
   //checks for socket
+  const [allChats, dispatch] = React.useReducer(reducerFn, initialState); //takes two arguments, reducer function and initial state
   if (!socket) {
     //if no socket
     socket = io(':3001'); //create a socket with the imported io function, set manually to port 3001
+    socket.on('chat message', msg => {
+      dispatch({ type: 'RECEIVE_MESSAGE', payload: msg });
+    });
   }
   const user = 'user' + Math.random(100).toFixed(2);
-  const [allChats] = React.useReducer(reducerFn, initialState); //takes two arguments, reducer function and initial state
   return (
     <CTX.Provider value={{ allChats, sendChatAction, user }}>
       {props.children}
