@@ -1,4 +1,5 @@
 import React from 'react';
+import io from 'socket.io-client';
 
 export const CTX = React.createContext(); //initializes a react context object
 
@@ -58,7 +59,14 @@ function reducerFn(state, action) {
   }
 }
 
+let socket; //initializes the socket, declared outside of the so that the socket doesnt get render everytimes the Store reloads
+
 export default function Store(props) {
+  //checks for socket
+  if (!socket) {
+    //if no socket
+    socket = io(':3001'); //create a socket with the imported io function, set manually to port 3001
+  }
   const reducerHook = React.useReducer(reducerFn, initialState); //takes two arguments, reducer function and initial state
   return <CTX.Provider value={reducerHook}>{props.children}</CTX.Provider>;
 }
