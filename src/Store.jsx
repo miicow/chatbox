@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CTX = React.createContext(); //initializes a react context object
+export const CTX = React.createContext(); //initializes a react context object
 
 /*
 msg {
@@ -24,6 +24,11 @@ const initialState = {
     { from: 'kevin', msg: 'hello!' },
     { from: 'michael', msg: 'hello!' },
     { from: 'tim', msg: 'hello!' }
+  ],
+  random: [
+    { from: 'jeff', msg: 'LOL' },
+    { from: 'sunny', msg: 'LMAO' },
+    { from: 'cheney', msg: 'no way!' }
   ]
 };
 

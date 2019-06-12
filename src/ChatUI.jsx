@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -9,10 +9,13 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+import { CTX } from './Store.jsx';
+
 const useStyles = makeStyles(theme => ({
   root: {
     margin: '50px',
-    padding: theme.spacing(3, 2)
+    padding: theme.spacing(3, 2),
+    textAlign: 'center'
   },
   flexbox: {
     display: 'flex',
@@ -39,23 +42,33 @@ const useStyles = makeStyles(theme => ({
 const ChatUI = () => {
   const classes = useStyles();
 
-  const [textValue, setTextValue] = React.useState('');
+  //CTX store
+  const [allChats] = React.useContext(CTX);
+  const topics = Object.keys(allChats); //retrieves the topic keys in allChats
+
+  //local state
+  const [currentTopic, setCurrentTopic] = useState(topics[0]); // useState hook for current topic, default to first topic
+  const [textValue, setTextValue] = useState('');
 
   return (
     <div>
       <Paper className={classes.root}>
         <Typography variant="h4" component="h4">
-          Hello World
+          Chat Box
         </Typography>
         <Typography variant="h5" component="h5">
-          This is a test for material-ui with react!
+          {currentTopic}
         </Typography>
         <div className={classes.flexbox}>
           <div className={classes.topicsWindow}>
             <List>
-              {['topic'].map(topic => {
+              {topics.map(topic => {
                 return (
-                  <ListItem key={topic} button>
+                  <ListItem
+                    onClick={event => setCurrentTopic(event.target.innerText)}
+                    key={topic}
+                    button
+                  >
                     <ListItemText primary={topic} />
                   </ListItem>
                 );
@@ -63,11 +76,13 @@ const ChatUI = () => {
             </List>
           </div>
           <div className={classes.chatWindow}>
-            {[{ from: 'user', msg: 'hello' }].map((chat, i) => {
+            {allChats[currentTopic].map((chat, i) => {
               return (
                 <div className={classes.flexbox} key={i}>
                   <Chip label={chat.from} className={classes.chip} />
-                  <Typography variant="p">{chat.msg}</Typography>
+                  <Typography variant="body1" gutterBottom>
+                    {chat.msg}
+                  </Typography>
                 </div>
               );
             })}

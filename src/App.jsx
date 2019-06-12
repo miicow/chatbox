@@ -1,5 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
 import ChatUI from './ChatUI.jsx';
+import Store from './Store.jsx';
 
-render(<ChatUI />, document.getElementById('app'));
+render(
+  //wrap ChatUI with Store, to get access to current state
+  <Store>
+    <ChatUI />
+  </Store>,
+  document.getElementById('app')
+);
