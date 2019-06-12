@@ -61,12 +61,27 @@ function reducerFn(state, action) {
 
 let socket; //initializes the socket, declared outside of the so that the socket doesnt get render everytimes the Store reloads
 
+const sendChatAction = value => {
+  socket.emit('chat message', value);
+};
+
+/*
+functions that are not arguments are captured from the context of the function definition
+while function that are arguments are not captured until the call, when theyre actually invoked
+and you can capture variables in your function either way
+*/
+
 export default function Store(props) {
   //checks for socket
   if (!socket) {
     //if no socket
     socket = io(':3001'); //create a socket with the imported io function, set manually to port 3001
   }
-  const reducerHook = React.useReducer(reducerFn, initialState); //takes two arguments, reducer function and initial state
-  return <CTX.Provider value={reducerHook}>{props.children}</CTX.Provider>;
+  const user = 'user' + Math.random(100).toFixed(2);
+  const [allChats] = React.useReducer(reducerFn, initialState); //takes two arguments, reducer function and initial state
+  return (
+    <CTX.Provider value={{ allChats, sendChatAction, user }}>
+      {props.children}
+    </CTX.Provider>
+  );
 }

@@ -43,12 +43,13 @@ const ChatUI = () => {
   const classes = useStyles();
 
   //CTX store
-  const [allChats] = React.useContext(CTX);
+  const { allChats, sendChatAction, user } = React.useContext(CTX);
   const topics = Object.keys(allChats); //retrieves the topic keys in allChats
 
   //local state
   const [currentTopic, setCurrentTopic] = useState(topics[0]); // useState hook for current topic, default to first topic
   const [textValue, setTextValue] = useState('');
+  const [usernameValue, setUsernameValue] = useState('');
 
   return (
     <div>
@@ -90,6 +91,12 @@ const ChatUI = () => {
         </div>
         <div className={classes.flexbox}>
           <TextField
+            label="Username"
+            className={classes.chatBox}
+            value={usernameValue}
+            onChange={event => setUsernameValue(event.target.value)}
+          />
+          <TextField
             label="Send a message"
             className={classes.chatBox}
             value={textValue}
@@ -99,6 +106,14 @@ const ChatUI = () => {
             variant="contained"
             color="primary"
             className={classes.button}
+            onClick={() => {
+              sendChatAction({
+                from: user,
+                msg: textValue,
+                topic: currentTopic
+              });
+              setTextValue('');
+            }}
           >
             Send
           </Button>

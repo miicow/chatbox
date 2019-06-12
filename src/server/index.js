@@ -8,8 +8,11 @@ app.get('/', function(req, res) {
   res.send('<h1>Hello world</h1>');
 });
 
-io.on('connection', () => {
+io.on('connection', socket => {
   console.log('user connected');
+  socket.on('chat message', function(msg) {
+    console.log('message: ' + JSON.stringify(msg));
+  });
 });
 
 http.listen(port, () => {
