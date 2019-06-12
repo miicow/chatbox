@@ -4,9 +4,10 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,7 +15,8 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3, 2)
   },
   flexbox: {
-    display: 'flex'
+    display: 'flex',
+    alignItems: 'center'
   },
   topicsWindow: {
     width: '30%',
@@ -23,7 +25,8 @@ const useStyles = makeStyles(theme => ({
   },
   chatWindow: {
     width: '70%',
-    height: '300px'
+    height: '300px',
+    padding: '20px'
   },
   chatBox: {
     width: '85%'
@@ -35,6 +38,8 @@ const useStyles = makeStyles(theme => ({
 
 const ChatUI = () => {
   const classes = useStyles();
+
+  const [textValue, setTextValue] = React.useState('');
 
   return (
     <div>
@@ -58,16 +63,31 @@ const ChatUI = () => {
             </List>
           </div>
           <div className={classes.chatWindow}>
-            {[{ from: 'user', msg: 'hello' }].map(chat => {
+            {[{ from: 'user', msg: 'hello' }].map((chat, i) => {
               return (
-                <div className={classes.flex}>
-                  <Chip label="Basic Chip" className={classes.chip} />
+                <div className={classes.flexbox} key={i}>
+                  <Chip label={chat.from} className={classes.chip} />
+                  <Typography variant="p">{chat.msg}</Typography>
                 </div>
               );
             })}
           </div>
         </div>
-        <div className={classes.flexbox} />
+        <div className={classes.flexbox}>
+          <TextField
+            label="Send a message"
+            className={classes.chatBox}
+            value={textValue}
+            onChange={event => setTextValue(event.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Send
+          </Button>
+        </div>
       </Paper>
     </div>
   );
